@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
     <script src="../js/mui.min.js"></script>
+    <script src="../js/template.js"></script>
+    <script src="../js/yunyu.js"></script>
+    <script src="../js/zepto.1.1.6.js"></script>
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <script type="text/javascript" charset="UTF-8">
       	mui.init();
@@ -12,6 +15,16 @@
 		window.addEventListener('newsId',function(event){
 		  //获得事件参数
 		  var id = event.detail.id;
+		  var wd = plus.nativeUI.showWaiting();
+		  postData('http://192.168.199.224:8080/yun/detail.json',
+		 		{"id":id},
+  				function(data){
+  					 wd.close();
+  					 $(".mui-content").html(data.buYun.jianjie);
+  					 $(".mui-title").html(data.buYun.title);
+  				},
+      			wd
+		  );
 		});
     </script>
 </head>
