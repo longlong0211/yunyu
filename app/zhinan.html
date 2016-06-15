@@ -9,39 +9,55 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="../css/mui.min.css">
 		<script src="../js/mui.js"></script>
-		
+	
 		<style>
-			html,
-			body {
-				background-color: #efeff4;
-			}
-			.title {
-				padding: 20px 15px 10px;
-				color: #6d6d72;
-				font-size: 15px;
-				background-color: #fff;
+			#map {
+				width: 100%;
+				position: fixed;
+				top: 0px;
+				bottom: 0px;
+				line-height: 200px;
+				text-align: center;
+				background: #FFFFFF;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<div class="title">
-					这是webview模式选项卡中的第2个子页面，该页面展示一个支持下拉刷新、上拉加载的消息列表
-				</div>
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 1</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 2</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 3</a>
-					</li>
-				</ul>
-			</div>
+		<div class="mui-content" id="map">
+		    
 		</div>
 		<script>
-		
-		</script>
+			mui.plusReady(function(){
+				var map = new plus.maps.Map("map");
+//				1:获取用户当前位置
+//				map.showUserLocation( true );
+//				map.showZoomControls( true );
+//				map.getUserLocation( function ( state, point ){
+//					if( 0 == state ){
+//						//map.setCenter( point, 20 );
+//						map.centerAndZoom(point, 18);
+//					}else{
+//						alert( "Failed!" );
+//					}
+//				} );
+//
+				plus.maps.Map.geocode("上海市徐汇区田林路140号越界创意园28号楼311-312室",{city:"上海"},function(event){
+					var address = event.address;  // 转换后的地理位置
+					var point = event.coord;  // 转换后的坐标信息
+					var coordType = event.coordType;	// 转换后的坐标系类型
+					map.centerAndZoom(point, 22);
+					var marker=new plus.maps.Marker(point);
+					marker.setIcon("/logo.png");
+					marker.setLabel("位置");
+					//var bubble = new plus.maps.Bubble("打造最好的HTML5移动开发工具");
+					//marker.setBubble(bubble);
+					map.addOverlay(marker);
+					//alert("Coord:"+JSON.stringify(point));
+				},function(e){
+					alert("Failed:"+JSON.stringify(e));
+				});
+			});
+		</script>	
 	</body>
 </html>
